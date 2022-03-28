@@ -1,0 +1,129 @@
+{
+  "name": "keycloak-login",
+  "version": "1.0",
+  "description": "keycloak-login",
+  "visibility": "PRIVATE",
+  "gravitee": "2.0.0",
+  "flow_mode": "DEFAULT",
+  "resources": [],
+  "properties": [],
+  "members": [
+    {
+      "source": "memory",
+      "sourceId": "admin",
+      "roles": [
+        "65438751-fd17-435e-8387-51fd17935e11"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "20c9ebe0-91c7-4919-89eb-e091c7b9192a",
+      "name": "Aside",
+      "type": "SYSTEM_FOLDER",
+      "order": 0,
+      "published": true,
+      "visibility": "PUBLIC",
+      "lastModificationDate": 1636970194274,
+      "contentType": "application/json",
+      "homepage": false,
+      "parentPath": "",
+      "excludedAccessControls": false,
+      "accessControls": [],
+      "api": "eefa23da-8785-4760-ba23-da8785576028"
+    }
+  ],
+  "plans": [
+    {
+      "id": "828772e9-1b28-4018-8772-e91b28e0186b",
+      "name": "keycloak-login-plan",
+      "description": "keycloak-login-plan",
+      "validation": "AUTO",
+      "security": "KEY_LESS",
+      "type": "API",
+      "status": "PUBLISHED",
+      "api": "eefa23da-8785-4760-ba23-da8785576028",
+      "order": 0,
+      "characteristics": [],
+      "created_at": 1636970194298,
+      "updated_at": 1636970194298,
+      "paths": {},
+      "flows": [
+        {
+          "name": "",
+          "path-operator": {
+            "path": "/",
+            "operator": "STARTS_WITH"
+          },
+          "condition": "",
+          "consumers": [],
+          "methods": [],
+          "pre": [],
+          "post": [],
+          "enabled": true
+        }
+      ],
+      "comment_required": false
+    }
+  ],
+  "metadata": [
+    {
+      "key": "email-support",
+      "name": "email-support",
+      "format": "MAIL",
+      "value": "${(api.primaryOwner.email)!''}",
+      "defaultValue": "support@change.me",
+      "apiId": "eefa23da-8785-4760-ba23-da8785576028"
+    }
+  ],
+  "id": "eefa23da-8785-4760-ba23-da8785576028",
+  "path_mappings": [],
+  "proxy": {
+    "virtual_hosts": [
+      {
+        "path": "/login"
+      }
+    ],
+    "strip_context_path": false,
+    "preserve_host": false,
+    "logging": {
+      "mode": "CLIENT_PROXY",
+      "content": "HEADERS_PAYLOADS",
+      "scope": "REQUEST_RESPONSE"
+    },
+    "groups": [
+      {
+        "name": "default-group",
+        "endpoints": [
+          {
+            "name": "default",
+            "target": "http://host.docker.internal:9393/auth/realms/corso-microservizi/protocol/openid-connect/token",
+            "weight": 1,
+            "backup": false,
+            "type": "HTTP",
+            "inherit": true
+          }
+        ],
+        "load_balancing": {
+          "type": "ROUND_ROBIN"
+        },
+        "http": {
+          "connectTimeout": 5000,
+          "idleTimeout": 60000,
+          "keepAlive": true,
+          "readTimeout": 10000,
+          "pipelining": false,
+          "maxConcurrentConnections": 100,
+          "useCompression": true,
+          "followRedirects": false
+        }
+      }
+    ]
+  },
+  "response_templates": {},
+  "primaryOwner": {
+    "id": "312550fa-ab8c-4d81-a550-faab8c5d817a",
+    "displayName": "admin",
+    "type": "USER"
+  }
+}

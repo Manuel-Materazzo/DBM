@@ -1,0 +1,164 @@
+{
+  "name": "customer-api",
+  "version": "1.0.0",
+  "description": "API di accesso agli utenti",
+  "visibility": "PRIVATE",
+  "gravitee": "2.0.0",
+  "flow_mode": "DEFAULT",
+  "services": {
+    "health-check": {
+      "enabled": true,
+      "schedule": "*/5 * * * * *",
+      "steps": [
+        {
+          "name": "default-step",
+          "request": {
+            "path": "/metrics/health?lang=it",
+            "method": "GET",
+            "fromRoot": false
+          },
+          "response": {
+            "assertions": [
+              "#response.status == 200"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resources": [],
+  "properties": [],
+  "members": [
+    {
+      "source": "memory",
+      "sourceId": "admin",
+      "roles": [
+        "65438751-fd17-435e-8387-51fd17935e11"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "5218c105-6a3b-4053-98c1-056a3bc0532c",
+      "name": "Aside",
+      "type": "SYSTEM_FOLDER",
+      "order": 0,
+      "published": true,
+      "visibility": "PUBLIC",
+      "lastModificationDate": 1636623508981,
+      "contentType": "application/json",
+      "homepage": false,
+      "parentPath": "",
+      "excludedAccessControls": false,
+      "accessControls": [],
+      "api": "e53588df-2e39-4dbc-b588-df2e399dbc1c"
+    }
+  ],
+  "plans": [
+    {
+      "id": "c113fbd9-f126-4435-93fb-d9f126f43591",
+      "name": "customer-api-plan",
+      "description": "customer-api-plan",
+      "validation": "AUTO",
+      "security": "KEY_LESS",
+      "type": "API",
+      "status": "PUBLISHED",
+      "api": "e53588df-2e39-4dbc-b588-df2e399dbc1c",
+      "order": 0,
+      "characteristics": [],
+      "created_at": 1636623509010,
+      "updated_at": 1636623509010,
+      "paths": {},
+      "flows": [
+        {
+          "name": "",
+          "path-operator": {
+            "path": "/",
+            "operator": "STARTS_WITH"
+          },
+          "condition": "",
+          "consumers": [],
+          "methods": [],
+          "pre": [],
+          "post": [],
+          "enabled": true
+        }
+      ],
+      "comment_required": false
+    }
+  ],
+  "metadata": [
+    {
+      "key": "email-support",
+      "name": "email-support",
+      "format": "MAIL",
+      "value": "${(api.primaryOwner.email)!''}",
+      "defaultValue": "support@change.me",
+      "apiId": "e53588df-2e39-4dbc-b588-df2e399dbc1c"
+    }
+  ],
+  "id": "e53588df-2e39-4dbc-b588-df2e399dbc1c",
+  "path_mappings": [],
+  "proxy": {
+    "virtual_hosts": [
+      {
+        "path": "/utenti"
+      }
+    ],
+    "strip_context_path": false,
+    "preserve_host": false,
+    "logging": {
+      "mode": "CLIENT_PROXY",
+      "content": "HEADERS_PAYLOADS",
+      "scope": "REQUEST_RESPONSE"
+    },
+    "groups": [
+      {
+        "name": "default-group",
+        "endpoints": [],
+        "load_balancing": {
+          "type": "ROUND_ROBIN"
+        },
+        "services": {
+          "discovery": {
+            "enabled": true,
+            "provider": "consul-service-discovery",
+            "configuration": {
+              "url": "http://host.docker.internal:8500",
+              "trustStoreType": "NONE",
+              "keyStoreType": "NONE",
+              "service": "CUSTOMER-SERVICE"
+            }
+          }
+        },
+        "proxy": {
+          "enabled": false,
+          "useSystemProxy": false,
+          "host": "null",
+          "port": 0,
+          "type": "HTTP"
+        },
+        "http": {
+          "connectTimeout": 5000,
+          "idleTimeout": 60000,
+          "keepAlive": true,
+          "readTimeout": 10000,
+          "pipelining": false,
+          "maxConcurrentConnections": 100,
+          "useCompression": true,
+          "followRedirects": false
+        },
+        "ssl": {
+          "trustAll": false,
+          "hostnameVerifier": false
+        }
+      }
+    ]
+  },
+  "response_templates": {},
+  "primaryOwner": {
+    "id": "312550fa-ab8c-4d81-a550-faab8c5d817a",
+    "displayName": "admin",
+    "type": "USER"
+  }
+}
