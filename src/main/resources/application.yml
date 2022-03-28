@@ -1,0 +1,35 @@
+server:
+    port: 8080
+    servlet:
+        context-path: /DBM-api
+
+
+spring:
+    # Nome microservizio per la Service Discovery
+    application.name: SERVICE
+    servlet.multipart.max-file-size: 100MB
+    servlet.multipart.max-request-size: 100MB
+
+    jpa:
+        hibernate.ddl-auto: create
+        #hibernate.ddl-auto: none
+        show-sql: false
+        properties.hibernate.format_sql: true
+
+    # Connessione Database
+    datasource:
+        platform: postgres
+        url: jdbc:postgresql://localhost:9000/dbm
+        username: admin
+        password: admin
+        driverClassName: org.postgresql.Driver
+    h2.console.enabled: true
+
+keycloak:
+    auth-server-url: http://localhost:8090/auth
+    public-client: true
+    realm: DMB
+    resource: api-server
+
+
+

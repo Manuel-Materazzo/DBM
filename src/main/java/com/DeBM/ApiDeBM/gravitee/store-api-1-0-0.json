@@ -1,0 +1,159 @@
+{
+  "name": "store-api",
+  "version": "1.0.0",
+  "description": "Api di accesso ai negozi",
+  "visibility": "PRIVATE",
+  "gravitee": "2.0.0",
+  "flow_mode": "DEFAULT",
+  "services": {
+    "health-check": {
+      "enabled": true,
+      "schedule": "*/5 * * * * *",
+      "steps": [
+        {
+          "name": "default-step",
+          "request": {
+            "path": "/metrics/health?lang=it",
+            "method": "GET",
+            "fromRoot": false
+          },
+          "response": {
+            "assertions": [
+              "#response.status == 200"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resources": [],
+  "properties": [],
+  "members": [
+    {
+      "source": "memory",
+      "sourceId": "admin",
+      "roles": [
+        "65438751-fd17-435e-8387-51fd17935e11"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "73a078fa-4da9-4574-a078-fa4da9857424",
+      "name": "Aside",
+      "type": "SYSTEM_FOLDER",
+      "order": 0,
+      "published": true,
+      "visibility": "PUBLIC",
+      "lastModificationDate": 1636631573473,
+      "contentType": "application/json",
+      "homepage": false,
+      "parentPath": "",
+      "excludedAccessControls": false,
+      "accessControls": [],
+      "api": "80232680-e1eb-4283-a326-80e1ebb283f6"
+    }
+  ],
+  "plans": [
+    {
+      "id": "98599b44-86af-4d9d-999b-4486af6d9dab",
+      "name": "store-api-plan",
+      "description": "store-api-plan",
+      "validation": "AUTO",
+      "security": "KEY_LESS",
+      "type": "API",
+      "status": "PUBLISHED",
+      "api": "80232680-e1eb-4283-a326-80e1ebb283f6",
+      "order": 0,
+      "characteristics": [],
+      "created_at": 1636631573499,
+      "updated_at": 1636631573499,
+      "paths": {},
+      "flows": [
+        {
+          "name": "",
+          "path-operator": {
+            "path": "/",
+            "operator": "STARTS_WITH"
+          },
+          "condition": "",
+          "consumers": [],
+          "methods": [],
+          "pre": [],
+          "post": [],
+          "enabled": true
+        }
+      ],
+      "comment_required": false
+    }
+  ],
+  "metadata": [
+    {
+      "key": "email-support",
+      "name": "email-support",
+      "format": "MAIL",
+      "value": "${(api.primaryOwner.email)!''}",
+      "defaultValue": "support@change.me",
+      "apiId": "80232680-e1eb-4283-a326-80e1ebb283f6"
+    }
+  ],
+  "id": "80232680-e1eb-4283-a326-80e1ebb283f6",
+  "path_mappings": [],
+  "proxy": {
+    "virtual_hosts": [
+      {
+        "path": "/negozi"
+      }
+    ],
+    "strip_context_path": false,
+    "preserve_host": false,
+    "groups": [
+      {
+        "name": "default-group",
+        "endpoints": [],
+        "load_balancing": {
+          "type": "ROUND_ROBIN"
+        },
+        "services": {
+          "discovery": {
+            "enabled": true,
+            "provider": "consul-service-discovery",
+            "configuration": {
+              "url": "http://host.docker.internal:8500",
+              "trustStoreType": "NONE",
+              "keyStoreType": "NONE",
+              "service": "STORE-SERVICE"
+            }
+          }
+        },
+        "proxy": {
+          "enabled": false,
+          "useSystemProxy": false,
+          "host": "null",
+          "port": 0,
+          "type": "HTTP"
+        },
+        "http": {
+          "connectTimeout": 5000,
+          "idleTimeout": 60000,
+          "keepAlive": true,
+          "readTimeout": 10000,
+          "pipelining": false,
+          "maxConcurrentConnections": 100,
+          "useCompression": true,
+          "followRedirects": false
+        },
+        "ssl": {
+          "trustAll": false,
+          "hostnameVerifier": false
+        }
+      }
+    ]
+  },
+  "response_templates": {},
+  "primaryOwner": {
+    "id": "312550fa-ab8c-4d81-a550-faab8c5d817a",
+    "displayName": "admin",
+    "type": "USER"
+  }
+}

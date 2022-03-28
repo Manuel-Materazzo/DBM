@@ -1,0 +1,124 @@
+{
+  "name": "keycloak-auth",
+  "version": "1.0",
+  "description": "keycloak-auth",
+  "visibility": "PRIVATE",
+  "gravitee": "2.0.0",
+  "flow_mode": "DEFAULT",
+  "resources": [],
+  "properties": [],
+  "members": [
+    {
+      "source": "memory",
+      "sourceId": "admin",
+      "roles": [
+        "65438751-fd17-435e-8387-51fd17935e11"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "id": "69d1e6ec-812d-46e4-91e6-ec812d36e461",
+      "name": "Aside",
+      "type": "SYSTEM_FOLDER",
+      "order": 0,
+      "published": true,
+      "visibility": "PUBLIC",
+      "lastModificationDate": 1636974523732,
+      "contentType": "application/json",
+      "homepage": false,
+      "parentPath": "",
+      "excludedAccessControls": false,
+      "accessControls": [],
+      "api": "a143ac21-7b62-46a8-83ac-217b62b6a80a"
+    }
+  ],
+  "plans": [
+    {
+      "id": "176e88f1-b45f-4860-ae88-f1b45f186096",
+      "name": "keycloak-auth-plan",
+      "description": "keycloak-auth-plan",
+      "validation": "AUTO",
+      "security": "KEY_LESS",
+      "type": "API",
+      "status": "PUBLISHED",
+      "api": "a143ac21-7b62-46a8-83ac-217b62b6a80a",
+      "order": 0,
+      "characteristics": [],
+      "created_at": 1636974523743,
+      "updated_at": 1636974523743,
+      "paths": {},
+      "flows": [
+        {
+          "name": "",
+          "path-operator": {
+            "path": "/",
+            "operator": "STARTS_WITH"
+          },
+          "condition": "",
+          "consumers": [],
+          "methods": [],
+          "pre": [],
+          "post": [],
+          "enabled": true
+        }
+      ],
+      "comment_required": false
+    }
+  ],
+  "metadata": [
+    {
+      "key": "email-support",
+      "name": "email-support",
+      "format": "MAIL",
+      "value": "${(api.primaryOwner.email)!''}",
+      "defaultValue": "support@change.me",
+      "apiId": "a143ac21-7b62-46a8-83ac-217b62b6a80a"
+    }
+  ],
+  "id": "a143ac21-7b62-46a8-83ac-217b62b6a80a",
+  "path_mappings": [],
+  "proxy": {
+    "virtual_hosts": [
+      {
+        "path": "/auth"
+      }
+    ],
+    "strip_context_path": false,
+    "preserve_host": false,
+    "groups": [
+      {
+        "name": "default-group",
+        "endpoints": [
+          {
+            "name": "default",
+            "target": "http://host.docker.internal:9393/auth",
+            "weight": 1,
+            "backup": false,
+            "type": "HTTP",
+            "inherit": true
+          }
+        ],
+        "load_balancing": {
+          "type": "ROUND_ROBIN"
+        },
+        "http": {
+          "connectTimeout": 5000,
+          "idleTimeout": 60000,
+          "keepAlive": true,
+          "readTimeout": 10000,
+          "pipelining": false,
+          "maxConcurrentConnections": 100,
+          "useCompression": true,
+          "followRedirects": false
+        }
+      }
+    ]
+  },
+  "response_templates": {},
+  "primaryOwner": {
+    "id": "312550fa-ab8c-4d81-a550-faab8c5d817a",
+    "displayName": "admin",
+    "type": "USER"
+  }
+}
