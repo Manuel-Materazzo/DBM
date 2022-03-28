@@ -1,0 +1,89 @@
+@use '../../@theme/styles/themes' as *;
+
+@include nb-install-component {
+  .container {
+    height: 300px;
+    top: 60px;
+    display: flex;
+  }
+
+  .card {
+    display: flex;
+    height: 280px;
+    width: 195px !important;
+    background-color: nb-theme(background-basic-color-1);
+    border-radius: 10px;
+    transition: 0.4s ease-out;
+    position: relative;
+    left: 0px;
+  }
+
+  .card:not(:first-child) {
+    margin-left: -50px;
+  }
+
+  .card:hover {
+    transform: translateY(-20px);
+    transition: 0.4s ease-out;
+  }
+
+  .card:hover ~ .card {
+    position: relative;
+    left: 50px;
+    transition: 0.4s ease-out;
+  }
+
+  .title {
+    color: nb-theme(text-basic-color);
+    font-weight: 300;
+    position: absolute;
+    top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+
+  .bar {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    height: 5px;
+    width: 150px;
+  }
+
+  .circle {
+    position: absolute;
+    top: 150px;
+    left: calc(50% - 60px);
+  }
+  .view {
+    position: absolute;
+    top: 200px;
+    left: calc(50% - 10px);
+  }
+
+  .stroke {
+    stroke: nb-theme(text-basic-color);
+    stroke-dasharray: 360;
+    stroke-dashoffset: 360;
+    transition: 0.6s ease-out;
+  }
+
+  svg {
+    fill: nb-theme(background-basic-color-1);
+    stroke-width: 2px;
+    width: 150px;
+  }
+
+  .card:hover .stroke {
+    stroke-dashoffset: 100;
+    transition: 0.6s ease-out;
+  }
+
+  img {
+    border-top-right-radius: 4%;
+    border-top-left-radius: 4%;
+  }
+}

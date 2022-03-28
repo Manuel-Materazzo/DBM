@@ -1,0 +1,150 @@
+<div class="steppers-container row">
+  <div class="col-md-12 col-lg-12">
+    <nb-card>
+      <nb-card-body>
+        <h1 class="text-center">Carica un Nuovo Album</h1>
+        <nb-stepper>
+
+
+          <nb-step label="Nome e copertina" [stepControl]="{valid: firstStepValid(), reset: null}">
+              <p class="lorem margin-bottom-2em">
+                Scegli un nome e carica una copertina per il tuo nuovo album.
+              </p>
+
+              <div class="col-md-3 featuredbar-responsive padding-left-3">
+                <nb-card>
+                  <nb-card-body>
+                    <div class="wrapper">
+                      <img [src]="imageSrc || '../../../assets/images/album.png'" class="margin-bottom-2em" />
+                    </div>
+                    <h3>{{name}}</h3>
+                  </nb-card-body>
+                </nb-card>
+              </div>
+
+              <div class="col-md-8 featuredbar-responsive padding-left-3">
+
+                <div class="form-group text-left">
+                  <label for="formFile" class="label">Immagine di copertina</label>
+                  <input name="immagine" id="formFile" type="file" accept="image/*" fullWidth nbInput required
+                         [status]="CheckImage()" [disabled]="submitted" (change)="handleImageInput($event.target.files)">
+                </div>
+
+                <div class="input-group">
+                  <input name="nomealbum" id="nomealbum" type="text" placeholder="Nome album" fullWidth nbInput required
+                         [(ngModel)]="name" [disabled]="submitted" [status]="CheckName()">
+                </div>
+
+                <div class="input-group mt-5" *ngIf="admin">
+                  <label for="idartista" class="label">Inserisci l'ID dell'artista al quale vuoi caricare l'album</label>
+                  <input name="idartista" id="idartista" type="text" placeholder="Id Artista (Lascia bianco per caricare l'album sul tuo account)"
+                         fullWidth nbInput [(ngModel)]="idArtista" [disabled]="submitted">
+                </div>
+              </div>
+
+              <div>
+                <button nbButton nbStepperNext>Avanti</button>
+              </div>
+          </nb-step>
+
+
+          <nb-step label="Descrizione" [stepControl]="{valid: secondStepValid(), reset: null}">
+              <p class="lorem margin-bottom-2em">
+                Scegli una descrizione per il tuo nuovo album.
+              </p>
+
+              <div class="col-md-3 featuredbar-responsive padding-left-3">
+                <nb-card>
+                  <nb-card-body>
+                    <div class="wrapper">
+                      <img [src]="imageSrc || '../../../assets/images/album.png'" class="margin-bottom-2em" />
+                    </div>
+                    <h3>{{name}}</h3>
+                    <p>{{descrizione}}</p>
+                  </nb-card-body>
+                </nb-card>
+              </div>
+
+              <div class="col-md-8 featuredbar-responsive padding-left-3">
+                <textarea name="descrizione" id="descrizione" rows="5" nbInput fullWidth required placeholder="Descrizione dell'album"
+                          [status]="CheckDescription()" [disabled]="submitted" [(ngModel)]="descrizione"></textarea>
+              </div>
+              <div>
+                <button nbButton nbStepperPrevious>Indietro</button>
+                <button nbButton nbStepperNext>Avanti</button>
+              </div>
+          </nb-step>
+
+
+          <nb-step label="Planner" [stepControl]="{valid: thirdStepValid(), reset: null}">
+              <p class="lorem margin-bottom-2em">
+                Scegli la data in cui l'album verrà rilasciato.
+              </p>
+
+              <div class="col-md-3 featuredbar-responsive padding-left-3">
+                <nb-card>
+                  <nb-card-body>
+                    <div class="wrapper">
+                      <img [src]="imageSrc || '../../../assets/images/album.png'" class="margin-bottom-2em" />
+                    </div>
+                    <h3>{{name}}</h3>
+                    <p>{{descrizione}}</p>
+                  </nb-card-body>
+                </nb-card>
+              </div>
+
+              <div class="col-md-8 featuredbar-responsive padding-left-3">
+                <input nbInput name="releaseDate" required fullWidth placeholder="Data di rilascio"
+                       [(ngModel)]="dataPubblicazione" [disabled]="submitted" [nbDatepicker]="picker" [status]="CheckPubblicationDate()">
+                <nb-datepicker #picker [min]="minDate"></nb-datepicker>
+              </div>
+              <div>
+                <button nbButton nbStepperPrevious>Indietro</button>
+                <button nbButton nbStepperNext>Avanti</button>
+              </div>
+          </nb-step>
+
+
+          <nb-step label="Carica Canzoni" [stepControl]="{valid: forthStepValid(), reset: null}">
+              <p class="lorem margin-bottom-2em">
+                Carica le canzoni da inserire nell'album (in seguito potrai aggiungere o eliminare le canzoni di questo album,
+                ma solo prima dell'approvazione da parte dell'amministratore)
+              </p>
+              <ng2-smart-table [settings]="settings" [source]="canzoni"
+                               (deleteConfirm)="onDeleteConfirm($event)"
+                               (createConfirm)="onCreateConfirm($event)"
+                                *ngIf="!submitted">
+              </ng2-smart-table>
+              <ng2-smart-table [settings]="settings" [source]="canzoni"
+                               *ngIf="submitted">
+              </ng2-smart-table>
+              <p style="color: darkred" *ngIf="!forthStepValid()"> Devi caricare almeno una canzone</p>
+              <div>
+                <button nbButton nbStepperPrevious>Indietro</button>
+                <button nbButton nbStepperNext (click)="onLastSubmit()">Conferma</button>
+              </div>
+          </nb-step>
+          <nb-step label="Fatto!" [hidden]="true">
+            <div class="step-container" *ngIf="!done">
+              <ngx-spinner></ngx-spinner>
+            </div>
+            <div class="step-container" *ngIf="submitted && !submitError">
+              <img src="../../../assets/images/done.png" style="width: 20% !important;">
+              <h3 class="margin-bottom-2em">Album caricato con successo!</h3>
+              <button nbButton (click)="gotoAlbumList()">Vai ai tuoi album</button>
+              <button nbButton (click)="gotoNewAlbum()">Carica un'altro album</button>
+            </div>
+            <div class="step-container" *ngIf="submitError">
+              <img src="../../../assets/images/error.png" style="width: 20% !important;">
+              <h3 class="margin-bottom-2em">Errore durante la creazione dell'album</h3>
+              <button nbButton nbStepperPrevious>Indietro</button>
+              <button nbButton nbStepperNext (click)="onLastSubmit()">Riprova</button>
+            </div>
+          </nb-step>
+
+
+        </nb-stepper>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<nb-card>
+  <nb-card-header>Nuovo featuring per {{artistName}}</nb-card-header>
+  <nb-card-body>
+    <ngx-spinner *ngIf="loading"></ngx-spinner>
+    <div *ngIf="!loading">
+      Inizio featuring:
+      <input nbInput name="releaseDate" required fullWidth placeholder="Data di inizio featuring"
+             [(ngModel)]="dateStart" [nbDatepicker]="start">
+      <nb-datepicker #start [min]="minDate"></nb-datepicker>
+      Fine featuring:
+      <input nbInput name="releaseDate" required fullWidth placeholder="Data di fine featuring"
+             [(ngModel)]="dateEnd" [nbDatepicker]="end">
+      <nb-datepicker #end [min]="minDate"></nb-datepicker>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel m-2" nbButton status="danger" (click)="cancel()">Annulla</button>
+    <button nbButton status="success" (click)="submit()">OK</button>
+  </nb-card-footer>
+</nb-card>

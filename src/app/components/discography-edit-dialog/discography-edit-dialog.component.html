@@ -1,0 +1,42 @@
+<nb-card>
+  <!--<nb-card-header>titolo</nb-card-header>-->
+  <nb-card-body>
+    <ngx-spinner  *ngIf="loading"></ngx-spinner>
+    <div class="col-md-4 featuredbar-responsive padding-left-5" *ngIf="!loading">
+      <div>
+        <nb-card>
+          <nb-card-body>
+            <div class="wrapper">
+              <img [src]="imageUrl">
+            </div>
+            <div class="form-group mt-2">
+              <input name="nomeAlbum" id="nomeAlbum" type="text" [status]="nameCheck()" [(ngModel)]="albumName" nbInput fullWidth
+                     placeholder="Nome Album">
+            </div>
+            <div class="form-group">
+              <textarea name="descrizione" id="descrizione" rows="5" [status]="descriptionCheck()" [(ngModel)]="albumDescription" nbInput fullWidth
+                        placeholder="Descrizione"></textarea>
+            </div>
+          </nb-card-body>
+        </nb-card>
+      </div>
+      <div>
+        <button status="danger" (click)="onDeleteAlbumClick()" nbButton>Elimina Album</button>
+      </div>
+    </div>
+    <div class="col-md-8 featuredbar-responsive" *ngIf="!loading">
+      <ng2-smart-table [settings]="settings" [source]="brani"
+                       (deleteConfirm)="onDeleteConfirm($event)"
+                       (editConfirm)="onEditConfirm($event)">
+      </ng2-smart-table>
+    </div>
+    <div class="float-lg-right m-1" *ngIf="!loading">
+      <button status="success" (click)="onSaveClick()" nbButton
+              *ngIf="deletedBrani.length > 0 || editedBrani.length > 0 || albumName !== firstTextLine || albumDescription !== secondTextLine"
+      >Salva Modifiche</button>
+    </div>
+  </nb-card-body>
+  <!--<nb-card-footer>
+    footer
+  </nb-card-footer>-->
+</nb-card>

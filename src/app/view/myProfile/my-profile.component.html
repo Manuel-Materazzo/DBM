@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="center" *ngIf="loading">
+    <ngx-spinner></ngx-spinner>
+  </div>
+
+  <div class="col-lg-3" *ngIf="!loading">
+    <nb-card>
+      <nb-card-body>
+        <div class="wrapper">
+          <img [src]="profilo.urlAvatar">
+        </div>
+        <p class="h3">{{profilo.nomeArte}}</p>
+        <p>{{profilo.bio}}</p>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+  <div class="col-lg-9" *ngIf="!loading">
+
+    <h1>Modifica il tuo profilo</h1>
+
+    <nb-card>
+      <nb-card-body>
+        <form>
+
+          <div class="form-group">
+            <label for="formFile" class="label">Immagine del Profilo</label>
+            <input nbInput fullWidth status="basic" accept="image/*" type="file" id="formFile" (change)="handleFileInput($event.target.files)">
+          </div>
+
+          <div class="form-group">
+            <label class="label" for="nomedarte">Nome d'arte</label>
+            <input name="nomedarte" id="nomedarte" type="text" [status]="CheckName()" [(ngModel)]="newProfilo.nomeArte"
+                   nbInput fullWidth placeholder="Nome d'arte">
+          </div>
+          <div class="form-group">
+            <label class="label" for="email">Email</label>
+            <input name="email" id="email" type="text" [status]="CheckEmail()" [(ngModel)]="newProfilo.email" nbInput fullWidth
+                   placeholder="Email">
+          </div>
+          <div class="form-group">
+            <label class="label" for="bio">Bio</label>
+            <textarea name="bio" id="bio" rows="5" [status]="CheckBio()" [(ngModel)]="newProfilo.bio" nbInput fullWidth
+                      placeholder="Bio"></textarea>
+          </div>
+        </form>
+
+        <button status="primary" [disabled]="!CheckUserInformations()" (click)="SendProfileUpdate()" nbButton>Salva Modifiche</button>
+
+      </nb-card-body>
+    </nb-card>
+
+  </div>
+</div>

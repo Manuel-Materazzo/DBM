@@ -1,0 +1,61 @@
+<nb-card>
+  <!--<nb-card-header>titolo</nb-card-header>-->
+  <nb-card-body>
+    <ngx-spinner *ngIf="loading"></ngx-spinner>
+
+        <div class="col-lg-3 d-inline-block top-allign" *ngIf="!loading">
+          <nb-card>
+            <nb-card-body>
+              <div class="wrapper">
+                <img [src]="imageUrl">
+              </div>
+              <div class="form-group">
+                <label for="formFile" class="label">Immagine del Profilo</label>
+                <input nbInput fullWidth status="basic" accept="image/*" type="file" id="formFile"
+                       [disabled]="bannato" (change)="handleFileInput($event.target.files)">
+              </div>
+            </nb-card-body>
+          </nb-card>
+        </div>
+
+        <div class="col-lg-9 d-inline-block top-allign" *ngIf="!loading">
+
+          <h1>Modifica il profilo di {{artistName}}</h1>
+          <nb-card>
+            <nb-card-body>
+              <form>
+
+                <div class="form-group">
+                  <label class="label" for="nomedarte">Nome d'arte</label>
+                  <input name="nomedarte" id="nomedarte" type="text" nbInput fullWidth placeholder="Nome d'arte"
+                         [status]="CheckName()" [disabled]="bannato" [(ngModel)]="newArtistName" >
+                </div>
+                <div class="form-group">
+                  <label class="label" for="email">Email</label>
+                  <input name="email" id="email" type="text" placeholder="Email" nbInput fullWidth
+                         [status]="CheckEmail()" [disabled]="bannato" [(ngModel)]="newEmail">
+                </div>
+                <div class="form-group">
+                  <label class="label" for="bio">Bio</label>
+                  <textarea name="bio" id="bio" rows="5" placeholder="Bio" nbInput fullWidth
+                            [status]="CheckBio()" [disabled]="bannato" [(ngModel)]="newBio"></textarea>
+                </div>
+              </form>
+
+              <button status="success" *ngIf="!bannato" [disabled]="!CheckUserInformations()" (click)="SendProfileUpdate()"
+                      nbButton class="m-1">Salva Modifiche</button>
+              <button status="info" *ngIf="!bannato" (click)="FeatureHammer()" nbButton class="m-1">Crea Featuring</button>
+              <button status="warning" *ngIf="!bannato" (click)="BanHammer()" nbButton class="m-1">Banna Autore</button>
+              <button status="warning" *ngIf="bannato" (click)="UnBanHammer()" nbButton class="m-1">Sbanna Autore</button>
+              <button status="danger" (click)="SendProfileDelete()" nbButton class="m-1">Elimina Autore</button>
+
+            </nb-card-body>
+          </nb-card>
+
+        </div>
+
+  </nb-card-body>
+  <!--<nb-card-footer>
+    footer
+  </nb-card-footer>-->
+</nb-card>

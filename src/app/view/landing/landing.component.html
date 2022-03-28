@@ -1,0 +1,141 @@
+<nb-layout>
+  <nb-layout-column style="padding: 0px;">
+
+    <!-- Nav Bar -->
+    <section class="smart-scroll">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-md navbar-dark">
+          <a class="navbar-brand heading-black" href="landing">
+            D&BM
+          </a>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item" *ngIf="!logged">
+              <a class="nav-link page-scroll d-flex flex-row align-items-center text-primary" href="auth/login">
+                Login
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="!logged">
+              <a class="nav-link page-scroll d-flex flex-row align-items-center text-primary" href="auth/register">
+                Register
+              </a>
+            </li>
+            <li class="nav-item" *ngIf="logged">
+              <a class="nav-link page-scroll d-flex flex-row align-items-center text-primary" href="pages/dashboard">
+                Vai alla Dashboard
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <!--hero header-->
+    <section class="py-7 py-md-0 bg-hero" id="home">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-sm-10 col-12 mx-auto my-half-auto text-center">
+            <h1 class="heading-black text-white">D&BM Music</h1>
+            <p class="lead py-3 text-white">La tua musica, sempre con te.</p>
+            <div class="featuredBox">
+              <div *ngFor="let featuring of featured" class="m-2 d-inline-block">
+                <ngx-card [title]="featuring.artisti.nomeArte" [description]="featuring.artisti.bio"
+                          [imageBig]="featuring.artisti.urlAvatar" (click)="openArtista(featuring.artisti)"></ngx-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!--<div class="music-player" *ngIf="playing">
+      <ang-music-player [audioList]=audioPlaceholder ></ang-music-player>
+    </div>-->
+
+    <!-- grid canzoni-->
+    <div class="containerCenter">
+    <div class="col-md-10 col-xxxl-10 top-allign-4em">
+      <nb-card class="own-scroll">
+        <nb-card-header>
+          <ngx-searchbar (searchEvent)="search($event)" [(searchContent)]="currentSearch"></ngx-searchbar>
+          <nb-icon icon="close-circle" pack="eva" (click)="resetSearch()" *ngIf="currentSearch.length > 0"></nb-icon>
+        </nb-card-header>
+        <nb-list
+          nbInfiniteList
+          listenWindowScroll="true"
+          [threshold]="500"
+          (bottomThreshold)="loadNext()"
+        style="display: block">
+          <nb-list-item *ngFor="let entry of exploreListArtisti" style="display: inline-block;">
+            <ngx-card [title]="entry.nomeArte"
+                      [description]="entry.bio"
+                      [imageBig]="entry.urlAvatar"
+                      (click)="openArtista(entry)"></ngx-card>
+          </nb-list-item>
+          <nb-list-item *ngFor="let entry of exploreListAlbum" style="display: inline-block;">
+            <ngx-card [title]="entry.nome"
+                      [description]="entry.descrizione"
+                      [imageSmall]="entry.urlImmagineArtista"
+                      [imageBig]="entry.urlCopertina"
+                      (click)="openAlbum(entry)"></ngx-card>
+          </nb-list-item>
+          <nb-list-item *ngFor="let entry of exploreListBrani" style="display: inline-block;">
+            <ngx-card [title]="entry.titolo"
+                      [description]="entry.durata.toString()"
+                      [imageSmall]="entry.urlImmagineArtista"
+                      [imageBig]="entry.urlCopertina"
+                      (click)="playSong(entry.idBrano)"></ngx-card>
+          </nb-list-item>
+        </nb-list>
+        <h2 *ngIf="empty" class="text-black-50 text-center">On no... La tua ricerca non ha prodotto risultati</h2>
+        <ngx-spinner *ngIf="loading"></ngx-spinner>
+      </nb-card>
+    </div>
+    </div>
+
+    <!--footer-->
+    <footer class="py-6 footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-5 mr-auto">
+            <h5>About Us</h5>
+            <p class="text-muted">Descrizione molto commovente della casa discografica.</p>
+            <ul class="list-inline social social-sm">
+              <li class="list-inline-item">
+                <a href=""><i class="fa fa-facebook"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href=""><i class="fa fa-twitter"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href=""><i class="fa fa-google-plus"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a href=""><i class="fa fa-dribbble"></i></a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <h5>Note Legali</h5>
+            <ul class="list-unstyled">
+              <li><a href="#">Privacy</a></li>
+              <li><a href="#">Termini e condizioni</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <h5>Partner</h5>
+            <ul class="list-unstyled">
+              <li><a href="#">Artisti</a></li>
+              <li><a href="#">Affiliati</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-12 text-muted text-center small-xl">
+            &copy; 2021 D&BM - Tutti i diritti sono riservati
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </nb-layout-column>
+</nb-layout>

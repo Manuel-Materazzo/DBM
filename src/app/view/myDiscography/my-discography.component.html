@@ -1,0 +1,45 @@
+<h1 class="text-center">Esplora la tua discografia</h1>
+<ngx-carousel [albums]="albums" (cardClickEvent)="onAlbumClick($event)" (seeAllEvent)="onSeeAllClick()"></ngx-carousel>
+
+<h1 class="text-center">Album in approvazione</h1>
+<ngx-spinner *ngIf="loading"></ngx-spinner>
+<div *ngIf="!loading">
+  <nb-accordion>
+    <nb-accordion-item *ngFor="let album of albumInApprovazione">
+      <nb-accordion-item-header>
+        {{album.nome}}
+      </nb-accordion-item-header>
+      <nb-accordion-item-body>
+        <div class="col-md-2 albumsongs-responsive padding-left-3">
+          <img [src]="album.urlCopertina" />
+          <input name="immagine" id="formFile" type="file" accept="image/*" fullWidth nbInput required
+                 (change)="handleImageInput($event.target.files, album)">
+        </div>
+        <div class="col-md-9 albumsongs-responsive padding-left-3">
+          <ng2-smart-table [settings]="settings" [source]="album.canzoni"
+                           (deleteConfirm)="onDeleteConfirm($event, album)"
+                           (createConfirm)="onCreateConfirm($event, album)">
+          </ng2-smart-table>
+        </div>
+      </nb-accordion-item-body>
+    </nb-accordion-item>
+  </nb-accordion>
+</div>
+
+
+<nb-card *ngIf="albumInApprovazione?.size === 0">
+  <h3 class="m-5">Complimenti! Non hai album in approvazione!</h3>
+</nb-card>
+
+<div *ngIf="createList.length > 0 || deleteList.length > 0 || imageChanged">
+  <div class="float-lg-right m-1">
+    <button status="danger" (click)="onAnnullaClick()" nbButton>Annulla</button>
+  </div>
+  <div class="float-lg-right m-1">
+    <button status="success" (click)="onSaveClick()" nbButton>Salva Modifiche</button>
+  </div>
+</div>
+
+
+
+

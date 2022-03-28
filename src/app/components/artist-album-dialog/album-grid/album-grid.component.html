@@ -1,0 +1,54 @@
+<!-- L'ngif serve ad aspettare l'nizializzazione del componente,
+      altrimenti le variabili non verrebbero injectate dagli @input -->
+<nb-card *ngIf = "gridSettings">
+  <nb-card-body>
+    <table [nbTreeGrid]="dataSet" >
+
+      <tr nbTreeGridHeaderRow *nbTreeGridHeaderRowDef="colonne"></tr>
+      <tr nbTreeGridRow *nbTreeGridRowDef="let row; columns: colonne"></tr>
+
+      <!--colonna con freccine-->
+      <ng-container [nbTreeGridColumnDef]="gridSettings.primaColonna">
+        <th nbTreeGridHeaderCell  *nbTreeGridHeaderCellDef>
+          {{gridSettings.primaColonna}}
+        </th>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+
+          <div class="d-inline-block">
+            <!-- icona per espandere gli album o rasto play-->
+            <nb-tree-grid-row-toggle [expanded]="row.expanded" *ngIf="row.data.numeroCanzoni >= 0; else fileIcon">
+            </nb-tree-grid-row-toggle>
+            <ng-template #fileIcon>
+              <nb-icon icon="play-circle" (click)="playclick(row.data.id)"></nb-icon>
+            </ng-template>
+          </div>
+
+          <div class="d-inline-block">
+            {{row.data[gridSettings.nomeDatiPrimaColonna]}}{{row.data["titolo"]}}
+          </div>
+
+        </td>
+      </ng-container>
+
+      <!--restanti colonne-->
+      <ng-container *ngFor="let column of gridSettings.altreColonne; let index = index"
+                    [nbTreeGridColumnDef]="column"
+                    [showOn]="getShowOn(index + 1)">
+        <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>
+          {{column}}
+        </th>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">{{row.data[gridSettings.nomeDatiAltreColonne[index]] || '-'}}</td>
+      </ng-container>
+
+      <!-- colonna approvazione -->
+      <ng-container nbTreeGridColumnDef="approva" *ngIf="admin">
+        <th nbTreeGridHeaderCell *nbTreeGridHeaderCellDef>Approva</th>
+        <td nbTreeGridCell *nbTreeGridCellDef="let row">
+          <nb-checkbox  *ngIf="!row.data.numeroCanzoni" [(checked)]="bools[row.data.id]" (checkedChange)="approveclick(row.data, $event)"></nb-checkbox>
+        </td>
+      </ng-container>
+
+    </table>
+
+  </nb-card-body>
+</nb-card>

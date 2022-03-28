@@ -1,0 +1,32 @@
+<div class="container justify-content-center flex-wrap">
+  <div class="card" *ngFor="let album of albums" (click)="CardClick(album)">
+    <img [src]="album.urlCopertina" />
+    <div class="bar">
+      <div class="emptybar"></div>
+      <div class="filledbar"></div>
+    </div>
+    <div class="circle">
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <circle class="stroke" cx="60" cy="60" r="50"/>
+      </svg>
+    </div>
+    <div class="view">
+      <nb-icon icon="eye-outline" pack="eva"></nb-icon>
+    </div>
+  </div>
+  <div class="card" (click)="VediClick()">
+    <h3 class="title text-center">Vedi tutti</h3>
+    <div class="bar">
+      <div class="emptybar"></div>
+      <div class="filledbar"></div>
+    </div>
+    <div class="circle">
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <circle class="stroke" cx="60" cy="60" r="50"/>
+      </svg>
+    </div>
+    <div class="view">
+      <nb-icon icon="arrow-forward-outline" pack="eva"></nb-icon>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,4 @@
+<div class="search-box">
+  <button class="btn-search" (click)="Search()"><i class="fas fa-search"></i></button>
+  <input type="text" class="input-search" placeholder="Cerca..." [(ngModel)] = "searchContent" (keydown.enter)="Search()">
+</div>

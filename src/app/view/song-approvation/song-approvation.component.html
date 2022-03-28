@@ -1,0 +1,22 @@
+<nb-card class='own-scroll'>
+  <nb-card-header>
+    <ngx-searchbar (searchEvent)='search($event)' [(searchContent)]="currentSearch"></ngx-searchbar>
+    <nb-icon icon="close-circle" pack="eva" (click)="resetSearch()" *ngIf="currentSearch.length > 0"></nb-icon>
+  </nb-card-header>
+  <nb-list
+    nbInfiniteList
+    listenWindowScroll
+    [threshold]="500"
+    (bottomThreshold)="loadNext()"
+    style="display: block">
+    <nb-list-item *ngFor="let entry of albumList" style="display: inline-block;">
+      <ngx-card [title]="entry.nome"
+                [description]="entry.descrizione"
+                [imageBig]="entry.urlCopertina"
+                [imageSmall]="entry.urlImmagineArtista"
+                (click)="openOverlay(entry)"></ngx-card>
+    </nb-list-item>
+  </nb-list>
+  <h2 *ngIf="albumList.length === 0" class="text-black-50 text-center">On no... La tua ricerca non ha prodotto risultati</h2>
+  <ngx-spinner *ngIf="loading"></ngx-spinner>
+</nb-card>
